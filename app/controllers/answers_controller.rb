@@ -1,5 +1,5 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, only: [:destroy, :edit]
+  before_action :authenticate_user!, only: [:edit,:update,:destroy,:new,:create]
   before_action :set_answer, only: [:show, :edit, :update, :destroy]
   
 
@@ -8,20 +8,20 @@ class AnswersController < ApplicationController
   def index
     @question = Question.find params[:question_id]
     @answers = @question.answers
-    respond_with (@answers)
+    respond_with(@question,@answers)
   end
 
   def show
     @question = Question.find params[:question_id]
-    respond_with(@answer)
+    respond_with(@question,@answer)
   end
 
   def new
     if current_user==nil then redirect_to '/users/sign_in'; return end
     @question = Question.find params[:question_id]
       @answer = Answer.new 
-    respond_with(@answer) 
-  end
+      respond_with(@question,@answer)
+    end
 
   def edit
     @question = Question.find params[:question_id]
@@ -42,9 +42,9 @@ class AnswersController < ApplicationController
 
   def destroy
     if current_user==nil then redirect_to '/users/sign_in';  return end
-      if current_user.id!=@answer.user_id then redirect_to '/questions/'; return end
+      if current_user.id!=@answer.user_id then redirect_to question_answers_path; return end
     @answer.destroy
-    respond_with(@answer)
+    redirect_to question_answers_path
   end
 
   private

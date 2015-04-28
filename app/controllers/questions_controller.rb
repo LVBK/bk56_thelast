@@ -21,10 +21,6 @@ class QuestionsController < ApplicationController
 
   def edit
     @question = Question.find(params[:id])
-    if current_user != @question.user
-       flash[:danger] = "u dont have permission."
-       redirect_to root_url
-    end
   end
 
   def create
