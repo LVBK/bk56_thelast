@@ -14,6 +14,7 @@ class QuestionsController < ApplicationController
   end
 
   def new
+    if current_user==nil then redirect_to '/users/sign_in'; return end
     @question = Question.new user: current_user
     respond_with(@question)
   end
@@ -41,11 +42,10 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question = Question.find(params[:id])
-    if current_user == @question.user
+    if current_user==nil then redirect_to '/users/sign_in';  return end
+      if current_user.id!=@question.user_id then redirect_to '/questions/'; return end
     @question.destroy
     respond_with(@question)
-    end
   end
 
   private
@@ -54,6 +54,6 @@ class QuestionsController < ApplicationController
     end
 
     def question_params
-      params.require(:question).permit :title, :content
+      params.require(:question).permit(:title, :content, :user_id)
     end
 end

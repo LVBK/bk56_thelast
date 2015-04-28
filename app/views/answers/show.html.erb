@@ -2,7 +2,7 @@
 
 <p>
   <strong>Question:</strong>
-  <%= @answer.question %>
+  <%= @answer.question_id %>
 </p>
 
 <p>
@@ -15,5 +15,5 @@
   <%= @answer.description %>
 </p>
 
-<%= link_to 'Edit', edit_question_answer_path(@answer.question, @answer) %> |
-<%= link_to 'Back', question_answers_path(@answer.question) %>
+<%= link_to 'Edit', edit_question_answer_path(@question, @answer) %> |
+<%= link_to 'Back', question_answers_path %>
